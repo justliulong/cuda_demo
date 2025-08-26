@@ -9,7 +9,7 @@
 
 </div>
 
-This project is built and tested under the EndeavorOS(arch series) operating system. The graphics card driver needs to be installed and compiled according to the corresponding CUDA version:
+本项目是在EndeavorOS（arch系列）操作系统下构建和测试的。显卡驱动需要根据CUDA版本进行安装和编译：
 
 ## NVIDIA Driver
 ```shell
@@ -20,11 +20,11 @@ yay -S nvidia-dkms nvidia-utils nvidia-settings
 ```shell
 yay -S cuda
 ```
-It is usually installed together with cudnn
+通常`CUDA`会搭配`cudnn`一起安装
 ```shell
 yay -S cudnn
 ```
-Check if the installation was successful：
+检查是否安装成功
 
 ```shell
 nvcc -V
@@ -45,7 +45,12 @@ cmake -B build
 cmake --build build --parallel 8
 ```
 
-## run
+## 运行
 ```shell
 ./bin/main
+```
+
+你直接可以通过下面的一条语句进行编译和运行
+```shell
+cmake -B build && cmake --build build --parallel 8 && ./bin/main
 ```
