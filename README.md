@@ -10,6 +10,7 @@
 </div>
 
 本项目是在EndeavorOS（arch系列）操作系统下构建和测试的。显卡驱动需要根据CUDA版本进行安装和编译：
+如果使用的显卡比较旧，比如(Maxwell架构)，那么建议使用 12.x 的 CUDA 版本，能支持项目运行的同时允许使用c++20的语法，CUDA13已经不支持较旧显卡的编译
 
 ## NVIDIA Driver
 ```shell
@@ -20,7 +21,7 @@ yay -S nvidia-dkms nvidia-utils nvidia-settings
 ```shell
 yay -S cuda
 ```
-通常`CUDA`会搭配`cudnn`一起安装
+通常`CUDA`会搭配`cudnn`一起安装,cudnn 里面一般有更多高效的算子(本仓库可选择安装，非必需)
 ```shell
 yay -S cudnn
 ```

@@ -15,7 +15,7 @@ __global__ void sum1(int* in, int* out, int in_size) {
         // 只能每个block处理一部分，然后在CPU上合并
     }
 
-    int sum = 0;  // 每个block的线程有自己的sum，没有 __shared__ 修饰，不是共享内存
+    int sum = 0;  // 每个block的线程有自己的寄存器，没有 __shared__ 修饰，不是共享内存
     for (int i = thread_id_in_grid; i < in_size; i += blockDim.x * gridDim.x) {
         sum += in[i];
     }
@@ -126,7 +126,7 @@ __global__ void sum4(int* in, int* out, int n) {
     int thread_id_in_block = threadIdx.x;
     int thread_id_in_grid = blockIdx.x * blockDim.x + threadIdx.x;
 
-    extern __shared__ int share_data[];
+    extern __shared__ int share_data[]; // 动态共享内存将会通过 extern 关键字修饰， 整个文件不能再次出现同名变量
 
     int sum = 0;
     for (int i = thread_id_in_grid; i < n; i += blockDim.x * gridDim.x) {
@@ -151,7 +151,7 @@ __global__ void sum4(int* in, int* out, int n) {
         out[blockIdx.x] = share_data[0];
 }
 
-// warp shuffle 优化
+// warp shuffle 优化，cuda > 9.0
 __global__ void sum5(int* in, int* out, int n) {
     int thread_id_in_block = threadIdx.x;
     int thread_id_in_grid = blockIdx.x * blockDim.x + threadIdx.x;
