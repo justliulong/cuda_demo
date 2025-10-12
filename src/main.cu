@@ -125,7 +125,42 @@ void MulByStream(std::vector<int *> h_arr1, std::vector<int *> h_arr2, std::vect
     }
 }
 
+void print_gpu_info() {
+    printf("\n=== 详细架构信息 ===\n");
+    
+    cudaDeviceProp prop;
+    cudaGetDeviceProperties(&prop, 0);
+    
+    printf("设备: %s\n", prop.name);
+    printf("计算能力: %d.%d\n", prop.major, prop.minor);
+    
+    // Warp相关信息
+    printf("\n Warp相关信息:\n");
+    printf("  Warp大小: %d 线程\n", prop.warpSize);
+    printf("  每个SM的最大warp数: %d\n", prop.maxThreadsPerMultiProcessor / prop.warpSize);
+    
+    // SM相关信息
+    printf("\nSM相关信息:\n");
+    printf("  SM数量: %d\n", prop.multiProcessorCount);
+    printf("  每个SM的最大线程块数: %d\n", prop.maxBlocksPerMultiProcessor);
+    printf("  每个SM的最大线程数: %d\n", prop.maxThreadsPerMultiProcessor);
+    printf("  每个SM的寄存器总数: %d\n", prop.regsPerMultiprocessor);
+    printf("  每个SM的共享内存: %zu bytes\n", prop.sharedMemPerMultiprocessor);
+    
+    // 线程块相关信息
+    printf("\n线程块相关信息:\n");
+    printf("  每块最大线程数: %d\n", prop.maxThreadsPerBlock);
+    printf("  每块最大寄存器数: %d\n", prop.regsPerBlock);
+    printf("  每块最大共享内存: %zu bytes\n", prop.sharedMemPerBlock);
+    printf("  线程块维度限制: (%d, %d, %d)\n", 
+           prop.maxThreadsDim[0], prop.maxThreadsDim[1], prop.maxThreadsDim[2]);
+    printf("  网格维度限制: (%d, %d, %d) \n",
+           prop.maxGridSize[0], prop.maxGridSize[1], prop.maxGridSize[2]);
+}
+
+
 int main() {         //! 这里没有修饰符，实际上就是主机函数，这里面可以调用其他的主机函数，也能调用核函数，但是不能调用设备函数
+    print_gpu_info();
     int n = 100000;  // array size
     int *d_arr;      // 这个变量就是在cpu上
     int *arr2;       // 准备计算一下两个张量之和
