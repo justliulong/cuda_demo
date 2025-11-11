@@ -48,10 +48,10 @@ cmake --build build --parallel 8
 
 ## 运行
 ```shell
-./bin/main
+./bin/cuda_demo
 ```
 
 你直接可以通过下面的一条语句进行编译和运行
 ```shell
-cmake -B build && cmake --build build --parallel 8 && ./bin/main
+cmake -B build && cmake --build build --parallel 8 && ./bin/cuda_demo
 ```
